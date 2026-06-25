@@ -116,13 +116,15 @@ td {
 /* Sidebar */
 .sidebar {
   width: 240px;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
   padding: 20px 12px;
   background: #fff;
   border-right: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  overflow-y: auto;
 }
 
 .sidebar-header {
@@ -178,6 +180,7 @@ td {
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   background: #fff;
+  margin-bottom: 16px;
 }
 
 .sidebar-backdrop {
@@ -418,6 +421,8 @@ td {
     top: 0;
     left: 0;
     bottom: 0;
+    height: 100%;
+    height: 100dvh;
     z-index: 100;
     transform: translateX(-100%);
     transition: transform 0.2s ease;
