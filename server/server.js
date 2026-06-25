@@ -51,6 +51,7 @@ app.get("*", (req, res, next) => {
   }
   res.sendFile(path.join(clientDistPath, "index.html"), (err) => {
     if (err) {
+      console.error(`Failed to serve index.html from ${clientDistPath}:`, err.message);
       next();
     }
   });
