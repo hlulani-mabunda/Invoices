@@ -56,6 +56,10 @@ export default function CreateInvoice() {
 
   const addItem = () => setItems((prev) => [...prev, { ...emptyItem }]);
 
+  const removeItem = (index) => {
+    setItems((prev) => prev.filter((_, i) => i !== index));
+  };
+
 
 
   const handleSubmit = async (e) => {
@@ -174,69 +178,75 @@ export default function CreateInvoice() {
 
         <h3>Line Items</h3>
 
-        {items.map((item, index) => (
-
-          <div key={index} className="line-item">
-
-            <input
-
-              placeholder="Description"
-
-              value={item.description}
-
-              onChange={(e) => updateItem(index, "description", e.target.value)}
-
-              required
-
-            />
-
-            <input
-
-              placeholder="Unit (e.g. kg, pcs)"
-
-              value={item.unit || ""}
-
-              onChange={(e) => updateItem(index, "unit", e.target.value)}
-
-            />
-
-            <input
-
-              type="number"
-
-              placeholder="Qty"
-
-              value={item.quantity}
-
-              onChange={(e) => updateItem(index, "quantity", e.target.value)}
-
-              min="1"
-
-              required
-
-            />
-
-            <input
-
-              type="number"
-
-              placeholder="Price"
-
-              value={item.price}
-
-              onChange={(e) => updateItem(index, "price", e.target.value)}
-
-              min="0"
-
-              step="0.01"
-
-              required
-
-            />
-
-          </div>
-
-        ))}
+        <div style={{ marginTop: "16px" }}>
+          {items.map((item, index) => (
+            <div key={index} className="line-item-group">
+              <div className="line-item-group-header">
+                <span className="line-item-group-title">Item #{index + 1}</span>
+                {items.length > 1 && (
+                  <button
+                    type="button"
+                    className="btn-danger-text"
+                    onClick={() => removeItem(index)}
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+              <div className="line-item-fields">
+                <div className="line-item-field">
+                  <label>Description</label>
+                  <input
+                    placeholder="Description"
+                    value={item.description}
+                    onChange={(e) => updateItem(index, "description", e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="line-item-field">
+                  <label>Unit</label>
+                  <input
+                    placeholder="Unit (e.g. kg, pcs)"
+                    value={item.unit || ""}
+                    onChange={(e) => updateItem(index, "unit", e.target.value)}
+                  />
+                </div>
+                <div className="line-item-field">
+                  <label>Quantity</label>
+                  <input
+                    type="number"
+                    placeholder="Qty"
+                    value={item.quantity}
+                    onChange={(e) => updateItem(index, "quantity", e.target.value)}
+                    min="1"
+                    required
+                  />
+                </div>
+                <div className="line-item-field">
+                  <label>Price</label>
+                  <input
+                    type="number"
+                    placeholder="Price"
+                    value={item.price}
+                    onChange={(e) => updateItem(index, "price", e.target.value)}
+                    min="0"
+                    step="0.01"
+                    required
+                  />
+                </div>
+                {items.length > 1 && (
+                  <button
+                    type="button"
+                    className="btn-danger-text desktop-remove-btn"
+                    onClick={() => removeItem(index)}
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
 
 
 

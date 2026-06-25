@@ -16,36 +16,22 @@ export async function downloadInvoicePdf(api, id, invoiceNumber) {
     throw new Error(message);
   }
 
-  const blob = new Blob([res.data], { type: "application/pdf" });
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const mimeType = isMobile ? "application/octet-stream" : "application/pdf";
+  const blob = new Blob([res.data], { type: mimeType });
   const filename = `invoice-${invoiceNumber}.pdf`;
   const url = URL.createObjectURL(blob);
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   try {
-    if (isMobile && typeof navigator.share === "function") {
-      const file = new File([blob], filename, { type: "application/pdf" });
-      if (navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ files: [file], title: filename });
-        return;
-      }
-    }
-
-    if (isMobile) {
-      window.open(url, "_blank", "noopener,noreferrer");
-      setTimeout(() => URL.revokeObjectURL(url), 60000);
-      return;
-    }
-
     const link = document.createElement("a");
     link.href = url;
     link.download = filename;
+    link.target = "_blank";
     link.rel = "noopener";
     document.body.appendChild(link);
     link.click();
     link.remove();
   } finally {
-    if (!isMobile) {
-      URL.revokeObjectURL(url);
-    }
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
   }
 }

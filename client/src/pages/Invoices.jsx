@@ -124,6 +124,7 @@ function InvoiceRow({ inv, downloading, saving, onStatusChange, onDownload }) {
           saving={saving}
           onStatusChange={onStatusChange}
           onDownload={onDownload}
+          className="table-actions"
         />
       </td>
     </tr>
@@ -156,19 +157,20 @@ function InvoiceCard({ inv, downloading, saving, onStatusChange, onDownload }) {
         saving={saving}
         onStatusChange={onStatusChange}
         onDownload={onDownload}
+        className="mobile-card-actions"
       />
     </article>
   );
 }
 
-function InvoiceActions({ inv, downloading, saving, onStatusChange, onDownload }) {
+function InvoiceActions({ inv, downloading, saving, onStatusChange, onDownload, className }) {
   const currentStatus = STATUS_OPTIONS.includes(inv.status) ? inv.status : "DRAFT";
   const [selectedStatus, setSelectedStatus] = useState(currentStatus);
 
   const hasChanges = selectedStatus !== currentStatus;
 
   return (
-    <div className="mobile-card-actions">
+    <div className={className}>
       <select
         value={selectedStatus}
         onChange={(e) => setSelectedStatus(e.target.value)}
